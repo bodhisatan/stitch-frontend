@@ -1,23 +1,31 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <el-tabs @tab-click="handleClick">
+      <el-tab-pane name="first" label="图像拼接" ></el-tab-pane>
+      <el-tab-pane name="second" label="数据比较"></el-tab-pane>
+    </el-tabs>
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+    }
+  },
+  methods: {
+    handleClick (tab) {
+      if (tab.name === 'first') {
+        this.$router.push('/')
+      } else {
+        this.$router.push('/analysis')
+      }
+    }
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
