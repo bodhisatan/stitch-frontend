@@ -69,13 +69,22 @@
           :disabled="true">
         </el-input>
         <br><br>
-        运行总耗时（ms）：
-        <el-input
-          style="width: 30%"
-          placeholder="运行总耗时"
-          v-model="time_cost"
-          :disabled="true">
-        </el-input>
+        <div>
+          特征点提取耗时 / 运行总耗时（ms）：
+          <el-input
+            style="width: auto"
+            placeholder="特征点提取耗时"
+            v-model="algorithm_time_cost"
+            :disabled="true">
+          </el-input>
+          /
+          <el-input
+            style="width: auto"
+            placeholder="运行总耗时"
+            v-model="total_time_cost"
+            :disabled="true">
+          </el-input>
+        </div>
       </div>
     </div>
 
@@ -106,7 +115,8 @@ export default {
       ],
       ssim: '',
       psnr: '',
-      time_cost: ''
+      total_time_cost: '',
+      algorithm_time_cost: ''
     };
   },
   methods: {
