@@ -4,14 +4,19 @@
     <div style="display: flex">
       <div style="margin: 0 0 0 100px; flex-grow: 1">
         <el-upload
-          action=""
-          limit="2"
+          multiple
+          ref="upload"
+          action="http://127.0.0.1:5000/upload_pic"
+          :limit=2
           :on-preview="handlePreview"
           :on-remove="handleRemove"
+          :on-change="handleChange"
           :file-list="fileList"
+          :auto-upload="false"
           list-type="picture">
-          <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+          <div slot="tip" class="el-upload__tip">上传两张jpg/png文件，且不超过500kb</div>
         </el-upload>
       </div>
 
@@ -46,11 +51,15 @@
       <div style="margin: 0 0 0 100px; flex-grow: 1">
         <el-link type="primary">拼接结果（点击查看大图）：</el-link>
         <br><br>
-        <el-image
-          style="width: 350px; height: 250px"
-          :src="url"
-          :preview-src-list="srcList">
-        </el-image>
+        <div v-loading="loading">
+          <el-image
+            style="width: 350px; height: 250px"
+            :src="url"
+            :preview-src-list="srcList">
+            v-loading="loading"
+          </el-image>
+        </div>
+
       </div>
       <div style="margin: 80px 100px 0 0; flex-grow: 1">
         SSIM结构化相似度：
@@ -92,11 +101,15 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Stitch',
   data() {
     return {
-      fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
+      loading: true,
+      fileList: [],   // upload多文件数组
+      pic_uuid: '',
       form: {
         name: '',
         region: '',
@@ -108,7 +121,7 @@ export default {
         desc: ''
       },
       step_active: 3,
-      url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+      url: '',
       srcList: [
       'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
       'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
@@ -121,14 +134,53 @@ export default {
   },
   methods: {
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      this.fileList = fileList
     },
     handlePreview(file) {
       console.log(file);
     },
+    handleChange(file, fileList) {
+      this.fileList = fileList
+    },
+    // 传输多张图片到服务器
+    submitUpload() {
+      if (this.fileList.length !== 2) {
+        this.$message({
+          message: '请选择2张图片文件',
+          type: 'warning'
+        })
+      } else {
+        const isLt500K = this.fileList.every(file => file.size / 1024 / 1024 / 1024 < 500);
+        if (!isLt500K) {
+          this.$message.error('请检查，上传文件大小不能超过500KB!');
+        } else {
+          let formData = new FormData();  // new formData对象
+          this.fileList.forEach(file => {
+            formData.append('file', file.raw)
+          })
+          axios.post("http://127.0.0.1:5000/upload_pic", formData).then((response) => {
+            console.log(response)
+            if (response.status === 200) {
+              this.pic_uuid = response.data.uuid
+              console.log(this.pic_uuid)
+              this.$message({
+                message: "上传成功",
+                type: 'success'
+              })
+            } else {
+              this.$message({
+                message: "上传失败",
+                type: 'error'
+              })
+            }
+          });
+        }
+      }
+    },
     onSubmit() {
       console.log('submit!');
-    }
+    },
+
   }
 }
 </script>
