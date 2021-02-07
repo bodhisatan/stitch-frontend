@@ -23,7 +23,7 @@
       <div style="margin: 0 100px 0 50px; flex-grow: 1;">
         <el-form ref="form" :model="form" :inline="true" style="margin: 50px">
           <el-form-item label="特征提取算法">
-            <el-select v-model="form.region" placeholder="请选用特征提取算法">
+            <el-select v-model="form.algorithm" placeholder="请选用特征提取算法">
               <el-option label="SURF" value="SURF"></el-option>
               <el-option label="SIFT" value="SIFT"></el-option>
               <el-option label="HARRIS" value="HARRIS"></el-option>
@@ -31,7 +31,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="结果数据是否落库">
-            <el-switch v-model="form.delivery"></el-switch>
+            <el-switch v-model="form.isSaved"></el-switch>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">开始拼接</el-button>
@@ -109,23 +109,16 @@ export default {
     return {
       loading: true,
       fileList: [],   // upload多文件数组
-      pic_uuid: '',
       form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        pic1_name: '',
+        pic2_name: '',
+        pic_uuid: '',
+        isSaved: false,
+        algorithm: 'SIFT'
       },
       step_active: 3,
       url: '',
-      srcList: [
-      'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-      'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-      ],
+      srcList: [],
       ssim: '',
       psnr: '',
       total_time_cost: '',
@@ -161,8 +154,10 @@ export default {
           axios.post("http://127.0.0.1:5000/upload_pic", formData).then((response) => {
             console.log(response)
             if (response.status === 200) {
-              this.pic_uuid = response.data.uuid
-              console.log(this.pic_uuid)
+              this.form.pic_uuid = response.data.uuid
+              this.form.pic1_name = response.data.pic1_name
+              this.form.pic2_name = response.data.pic2_name
+              console.log(this.form.pic2_name)
               this.$message({
                 message: "上传成功",
                 type: 'success'
@@ -178,7 +173,31 @@ export default {
       }
     },
     onSubmit() {
-      console.log('submit!');
+      let that = this
+      if (that.algorithm === '') {
+        _this.$alert('请选择算法', '提示', {
+          confirmButtonText: '确定'
+        })
+      } else {
+        //提交表单
+        axios.post("http://127.0.0.1:5000/start", this.form).then((response) => {
+          console.log(response)
+          if (response.status === 200) {
+            this.loading = false
+            this.url = response.data.res_url
+            this.srcList.push(response.data.res_url)
+            this.srcList.push(response.data.vis_url)
+            console.log(this.srcList)
+            this.$alert('运算结束', '提示', {
+              confirmButtonText: '确定'
+            })
+          } else {
+            this.$alert('运算失败', '提示', {
+              confirmButtonText: '确定'
+            })
+          }
+        });
+      }
     },
 
   }
