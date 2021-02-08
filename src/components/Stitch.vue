@@ -62,11 +62,18 @@
 
       </div>
       <div style="margin: 80px 100px 0 0; flex-grow: 1">
-        SSIM结构化相似度：
+        输入图像相似度：
         <el-input
           style="width: 30%"
-          placeholder="输入图像相似度指标"
+          placeholder="SSIM结构化相似度"
           v-model="ssim"
+          :disabled="true">
+        </el-input>
+        /
+        <el-input
+          style="width: 30%"
+          placeholder="三通道直方图相似度"
+          v-model="hist"
           :disabled="true">
         </el-input>
         <br><br>
@@ -116,10 +123,11 @@ export default {
         isSaved: false,
         algorithm: 'SIFT'
       },
-      step_active: 3,
+      step_active: 0,
       url: '',
       srcList: [],
       ssim: '',
+      hist: '',
       psnr: '',
       total_time_cost: '',
       algorithm_time_cost: ''
@@ -187,6 +195,10 @@ export default {
             this.url = response.data.res_url
             this.srcList.push(response.data.res_url)
             this.srcList.push(response.data.vis_url)
+            this.ssim = response.data.ssim
+            this.hist = response.data.hist
+            this.psnr = response.data.psnr
+            this.step_active = 4
             console.log(this.srcList)
             this.$alert('运算结束', '提示', {
               confirmButtonText: '确定'
