@@ -16,7 +16,7 @@
           list-type="picture">
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-          <div slot="tip" class="el-upload__tip">上传两张jpg/png文件，且不超过500kb</div>
+          <div slot="tip" class="el-upload__tip">上传两张jpg/png文件，且不超过5MB</div>
         </el-upload>
       </div>
 
@@ -151,9 +151,10 @@ export default {
           type: 'warning'
         })
       } else {
-        const isLt500K = this.fileList.every(file => file.size / 1024 / 1024 / 1024 < 500);
-        if (!isLt500K) {
-          this.$message.error('请检查，上传文件大小不能超过500KB!');
+        this.srcList = []  // 计算结果归零
+        const isLt5M = this.fileList.every(file => file.size / 1024 / 1024 < 5);
+        if (!isLt5M) {
+          this.$message.error('请检查，上传文件大小不能超过5M!');
         } else {
           let formData = new FormData();  // new formData对象
           this.fileList.forEach(file => {
