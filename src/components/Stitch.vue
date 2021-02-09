@@ -177,6 +177,11 @@ export default {
                 type: 'error'
               })
             }
+          }).catch(error => {
+            this.$message({
+              message: "上传失败" + error,
+              type: 'error'
+            })
           });
         }
       }
@@ -209,6 +214,10 @@ export default {
               confirmButtonText: '确定'
             })
           }
+        }).catch(error => {
+          this.$alert('运算失败: ' + error, '提示', {
+            confirmButtonText: '确定'
+          })
         });
       }
     },
