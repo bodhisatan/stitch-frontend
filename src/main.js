@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+Vue.prototype.$deploy_url = "http://127.0.0.1:5000/"
 
 /* eslint-disable no-new */
 new Vue({

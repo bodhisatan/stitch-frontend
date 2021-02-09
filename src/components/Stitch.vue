@@ -6,7 +6,7 @@
         <el-upload
           multiple
           ref="upload"
-          action="http://127.0.0.1:5000/upload_pic"
+          action=""
           :limit=2
           :on-preview="handlePreview"
           :on-remove="handleRemove"
@@ -114,6 +114,7 @@ export default {
   name: 'Stitch',
   data() {
     return {
+      upload_pic_url: this.$deploy_url + "upload_pic",
       loading: true,
       fileList: [],   // upload多文件数组
       form: {
@@ -160,7 +161,7 @@ export default {
           this.fileList.forEach(file => {
             formData.append('file', file.raw)
           })
-          axios.post("http://127.0.0.1:5000/upload_pic", formData).then((response) => {
+          axios.post(this.upload_pic_url, formData).then((response) => {
             console.log(response)
             if (response.status === 200) {
               this.form.pic_uuid = response.data.uuid
@@ -194,7 +195,7 @@ export default {
         })
       } else {
         //提交表单
-        axios.post("http://127.0.0.1:5000/start", this.form).then((response) => {
+        axios.post(this.$deploy_url + "start", this.form).then((response) => {
           console.log(response)
           if (response.status === 200) {
             this.loading = false
