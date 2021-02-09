@@ -195,6 +195,10 @@ export default {
         })
       } else {
         //提交表单
+        this.$message({
+          message: "使用" + this.form.algorithm + "算法",
+          type: 'success'
+        })
         axios.post(this.$deploy_url + "start", this.form).then((response) => {
           console.log(response)
           if (response.status === 200) {
