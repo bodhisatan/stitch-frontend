@@ -195,6 +195,7 @@ export default {
         })
       } else {
         //提交表单
+        this.srcList = []  // 计算结果归零
         this.$message({
           message: "使用" + this.form.algorithm + "算法",
           type: 'success'
@@ -209,6 +210,8 @@ export default {
             this.ssim = response.data.ssim
             this.hist = response.data.hist
             this.psnr = response.data.psnr
+            this.algorithm_time_cost = response.data.algorithm_time_cost
+            this.total_time_cost = response.data.total_time_cost
             this.step_active = 4
             console.log(this.srcList)
             this.$alert('运算结束', '提示', {
