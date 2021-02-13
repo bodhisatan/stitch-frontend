@@ -122,7 +122,8 @@ export default {
         pic2_name: '',
         pic_uuid: '',
         isSaved: false,
-        algorithm: 'SIFT'
+        algorithm: 'SIFT',
+        origin_file_name: ''
       },
       step_active: 0,
       url: '',
@@ -167,6 +168,7 @@ export default {
               this.form.pic_uuid = response.data.uuid
               this.form.pic1_name = response.data.pic1_name
               this.form.pic2_name = response.data.pic2_name
+              this.form.origin_file_name = response.data.origin_file_name
               console.log(this.form.pic2_name)
               this.$message({
                 message: "上传成功",
