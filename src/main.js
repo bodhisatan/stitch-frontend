@@ -9,7 +9,7 @@ import * as echarts from 'echarts'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-Vue.prototype.$deploy_url = "http://127.0.0.1:5000/"
+Vue.prototype.$deploy_url = "http://127.0.0.1:5000/api/"
 Vue.prototype.$echarts = echarts
 
 /* eslint-disable no-new */
