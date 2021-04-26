@@ -85,6 +85,14 @@
           :disabled="true">
         </el-input>
         <br><br>
+        提取有效特征点对数量：
+        <el-input
+          style="width: 30%"
+          placeholder="提取有效特征点对数量"
+          v-model="feature_num"
+          :disabled="true">
+        </el-input>
+        <br><br>
         <div>
           特征点提取耗时 / 运行总耗时（ms）：
           <el-input
@@ -131,6 +139,7 @@ export default {
       ssim: '',
       hist: '',
       psnr: '',
+      feature_num: '',
       total_time_cost: '',
       algorithm_time_cost: ''
     };
@@ -216,6 +225,7 @@ export default {
             this.ssim = response.data.ssim
             this.hist = response.data.hist
             this.psnr = response.data.psnr
+            this.feature_num = response.data.feature_num
             this.algorithm_time_cost = response.data.algorithm_time_cost
             this.total_time_cost = response.data.total_time_cost
             this.step_active = 4

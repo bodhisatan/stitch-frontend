@@ -31,10 +31,12 @@ export default {
       algorithm_siftList: [],
       algorithm_orbList: [],
       algorithm_harrisList: [],
+      algorithm_loftrList: [],
       total_xAxisList: [],
       total_siftList: [],
       total_orbList: [],
       total_harrisList: [],
+      total_loftrList: [],
 
       options: [],
       value: ''
@@ -50,6 +52,7 @@ export default {
         this.algorithm_harrisList = response.data.algorithm_harrisList
         this.algorithm_orbList = response.data.algorithm_orbList
         this.algorithm_siftList = response.data.algorithm_siftList
+        this.algorithm_loftrList = response.data.algorithm_loftrList
         this.algorithm_xAxisList = response.data.algorithm_xAxisList
         option = {
           color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
@@ -66,7 +69,7 @@ export default {
             }
           },
           legend: {
-            data: ['SIFT', 'ORB', 'Harris']
+            data: ['SIFT', 'ORB', 'Harris', 'DeepLearning']
           },
           toolbox: {
             feature: {
@@ -164,6 +167,30 @@ export default {
                 focus: 'series'
               },
               data: this.algorithm_harrisList
+            },
+            {
+              name: 'DeepLearning',
+              type: 'line',
+              stack: '总量',
+              smooth: true,
+              lineStyle: {
+                width: 0
+              },
+              showSymbol: false,
+              areaStyle: {
+                opacity: 0.8,
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0,
+                    color: 'rgba(255, 0, 135)'
+                }, {
+                    offset: 1,
+                    color: 'rgba(135, 0, 157)'
+                }])
+              },
+              emphasis: {
+                focus: 'series'
+              },
+              data: this.algorithm_loftrList
             }
           ]
         }
@@ -183,6 +210,7 @@ export default {
         this.total_orbList = response.data.total_orbList
         this.total_siftList = response.data.total_siftList
         this.total_xAxisList = response.data.total_xAxisList
+        this.total_loftrList = response.data.total_loftrList
         option = {
           color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
           title: {
@@ -198,7 +226,7 @@ export default {
             }
           },
           legend: {
-            data: ['SIFT', 'ORB', 'Harris']
+            data: ['SIFT', 'ORB', 'Harris', 'DeepLearning']
           },
           toolbox: {
             feature: {
@@ -296,6 +324,30 @@ export default {
                 focus: 'series'
               },
               data: this.total_harrisList
+            },
+            {
+              name: 'DeepLearning',
+              type: 'line',
+              stack: '总量',
+              smooth: true,
+              lineStyle: {
+                width: 0
+              },
+              showSymbol: false,
+              areaStyle: {
+                opacity: 0.8,
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0,
+                    color: 'rgba(255, 0, 135)'
+                }, {
+                    offset: 1,
+                    color: 'rgba(135, 0, 157)'
+                }])
+              },
+              emphasis: {
+                focus: 'series'
+              },
+              data: this.total_loftrList
             }
           ]
         }
