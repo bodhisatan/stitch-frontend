@@ -24,7 +24,7 @@
         <el-form ref="form" :model="form" :inline="true" style="margin: 50px">
           <el-form-item label="特征提取算法">
             <el-select v-model="form.algorithm" placeholder="请选用特征提取算法">
-              <el-option label="DeepLearning + ROI" value="DeepLearning"></el-option>
+              <el-option label="DeepLearning(LoFTR)" value="DeepLearning"></el-option>
               <el-option label="SIFT" value="SIFT"></el-option>
               <el-option label="Harris" value="Harris"></el-option>
               <el-option label="ORB" value="ORB"></el-option>
@@ -195,10 +195,10 @@ export default {
         that.$alert('请选择算法', '提示', {
           confirmButtonText: '确定'
         })
-      } else if (that.form.algorithm === 'DeepLearning') {
-        that.$alert('该算法尚未实现', '提示', {
-          confirmButtonText: '确定'
-        })
+      // } else if (that.form.algorithm === 'DeepLearning') {
+      //   that.$alert('该算法尚未实现', '提示', {
+      //     confirmButtonText: '确定'
+      //   })
       } else {
         //提交表单
         this.srcList = []  // 计算结果归零
