@@ -57,7 +57,7 @@ export default {
         option = {
           color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
           title: {
-            text: '特征提取耗时'
+            text: '特征提取匹配耗时'
           },
           tooltip: {
             trigger: 'axis',

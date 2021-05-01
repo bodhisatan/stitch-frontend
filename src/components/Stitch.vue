@@ -94,10 +94,10 @@
         </el-input>
         <br><br>
         <div>
-          特征点提取耗时 / 运行总耗时（ms）：
+          特征点提取匹配耗时 / 运行总耗时（ms）：
           <el-input
             style="width: auto"
-            placeholder="特征点提取耗时"
+            placeholder="特征点提取匹配耗时"
             v-model="algorithm_time_cost"
             :disabled="true">
           </el-input>
